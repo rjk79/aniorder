@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
-const Snackbar = ({ label }) => {
+const Snackbar = ({ label, setLabel }) => {
   const [showing, setShowing] = useState<boolean>(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowing(false);
+      setLabel('');
     }, 1000);
     return () => clearTimeout(timer);
   }, [label]);
@@ -14,7 +15,7 @@ const Snackbar = ({ label }) => {
   return (
     <div
       className={classNames(
-        'pointer-events-none p-5 w-full h-full flex justify-center items-center fixed z-10 bg-black bg-opacity-50',
+        'top-0 pointer-events-none p-5 w-full h-full flex justify-center items-center fixed z-10 bg-black bg-opacity-50',
         {
           'transition bg-opacity-0': !showing
         }
