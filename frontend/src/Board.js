@@ -468,7 +468,7 @@ const Board = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between mb-2">
           <span className="capitalize">
             Ordering By: <strong> {formatParam(order)}</strong>
           </span>
@@ -489,7 +489,7 @@ const Board = () => {
                 {!index && (
                   <div
                     className={classNames(
-                      'flex justify-center items-center text-center shadow-lg font-semibold p-2 mr-2 text-white bg-sky-500 h-40 w-28 border border-black rounded-lg cursor-pointer dark:border-sky-500',
+                      'flex justify-center items-center border border-gray-200 text-center shadow-lg font-semibold p-2 mr-2 text-white bg-sky-500 h-40 w-28 rounded-lg cursor-pointer dark:border-sky-500 transform hover:-translate-y-2 transition',
                       {}
                     )}
                     onClick={() => {
@@ -502,7 +502,7 @@ const Board = () => {
                 )}
                 <Animal
                   className={classNames(
-                    'shadow-lg mr-2 h-40 w-28 font-semibold border border-black dark:border-sky-500 cursor-pointer',
+                    'shadow-lg mr-2 h-40 w-28 font-semibold border border-gray-200 dark:border-sky-500 cursor-pointer transform hover:-translate-y-2 transition',
                     {}
                   )}
                   imageSize="h-28 w-28"
@@ -526,7 +526,7 @@ const Board = () => {
             <div className="flex space-x-2 mr-2">
               {hand.map((animal, index) => (
                 <Animal
-                  className="h-40 w-28 shadow-lg border font-semibold border-black cursor-pointer dark:border-sky-500"
+                  className="h-40 w-28 shadow-lg font-semibold border border-gray-200 cursor-pointer dark:border-sky-500 transform hover:-translate-y-2 transition"
                   imageSize="h-28 w-28"
                   key={index}
                   animal={animal}
