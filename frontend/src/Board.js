@@ -450,7 +450,15 @@ const Board = () => {
               className="h-7 w-7 cursor-pointer"
               onClick={() => setModal('instructions')}
             />
-            <RefreshIcon className="h-7 w-7 cursor-pointer" onClick={() => setModal('new-game')} />
+            <div className="relative">
+              {strikes === 5 && (
+                <div className="animate-ping bg-sky-500 pointer-events-none rounded-full w-full h-full absolute bg-opacity-50"></div>
+              )}
+              <RefreshIcon
+                className="h-7 w-7 cursor-pointer"
+                onClick={() => setModal('new-game')}
+              />
+            </div>
           </div>
         </div>
         <div className="flex justify-between">
@@ -468,7 +476,7 @@ const Board = () => {
           </span>
         </div>
         <div>
-          <div className="flex flex-wrap mb-44">
+          <div className="flex flex-wrap mb-48">
             {board.map((animal, index) => (
               <div key={index} className="flex mb-2">
                 {!index && (
@@ -527,10 +535,10 @@ const Board = () => {
             </div>
           </div>
           <div>
-            <div>
-              <span>Playing as: </span>
+            <div className="flex">
+              <span>Your Name: </span>
               <input
-                className="border border-gray-200 w-52 p-2 rounded-lg m-0 dark:text-black"
+                className="border border-gray-200 w-full p-2 rounded-lg m-0 dark:text-black"
                 value={chosenName}
                 onChange={(e) => setChosenName(e.target.value)}
                 placeholder="Enter your name here..."
@@ -542,12 +550,11 @@ const Board = () => {
           </div>
         </div>
 
-        {feedback && <Snackbar label={feedback} setLabel={setFeedback} />}
-
         <Modal closeModal={() => setModal(null)} modal={modal}>
           {modalContent}
         </Modal>
       </div>
+      {feedback && <Snackbar label={feedback} setLabel={setFeedback} />}
     </div>
   );
 };
