@@ -8,7 +8,6 @@ import {
   RefreshIcon
 } from '@heroicons/react/solid';
 import classNames from 'classnames';
-import ConfettiGenerator from 'confetti-js';
 import { cloneDeep } from 'lodash';
 
 import Animal from './Animal';
@@ -366,30 +365,32 @@ const Board = () => {
     </>
   ) : modal === 'new-game' ? (
     <>
-      <div className="text-2xl font-bold">Order By:</div>
       <div className="space-y-2">
-        {['lifespan', 'weight_max', 'length_max'].map((param, index) => (
-          <div
-            key={index}
-            className="flex cursor-pointer items-center"
-            onClick={() => setSelectedOrder(param)}>
-            <input
-              className="accent-pink-500 mr-2 h-4 w-4"
-              type="checkbox"
-              checked={selectedOrder === param}
-            />
-            <div className="capitalize">{formatParam(param)}</div>
-          </div>
-        ))}
+        <div className="text-2xl font-bold">Order By:</div>
+        <div className="space-y-2">
+          {['lifespan', 'weight_max', 'length_max'].map((param, index) => (
+            <div
+              key={index}
+              className="flex cursor-pointer items-center"
+              onClick={() => setSelectedOrder(param)}>
+              <input
+                className="text-pink-500 mr-2 h-4 w-4"
+                type="checkbox"
+                checked={selectedOrder === param}
+              />
+              <div className="capitalize">{formatParam(param)}</div>
+            </div>
+          ))}
+        </div>
+        <button
+          className="w-40 font-medium rounded-lg bg-pink-500 text-white flex text-base justify-center items-center px-2 py-2 border-0"
+          onClick={() => {
+            setOrder(selectedOrder);
+            setup();
+          }}>
+          Start New Game
+        </button>
       </div>
-      <button
-        className="w-40 font-medium rounded-lg bg-pink-500 text-white flex text-base justify-center items-center px-2 py-2 border-0"
-        onClick={() => {
-          setOrder(selectedOrder);
-          setup();
-        }}>
-        Start New Game
-      </button>
     </>
   ) : modal === 'high-scores' ? (
     <div className="space-y-4">
@@ -488,7 +489,7 @@ const Board = () => {
                 {!index && (
                   <div
                     className={classNames(
-                      'flex justify-center items-center text-center font-semibold p-2 mr-2 text-white bg-sky-500 h-40 w-28 border border-black rounded-lg cursor-pointer dark:border-sky-500',
+                      'flex justify-center items-center text-center shadow-lg font-semibold p-2 mr-2 text-white bg-sky-500 h-40 w-28 border border-black rounded-lg cursor-pointer dark:border-sky-500',
                       {}
                     )}
                     onClick={() => {
@@ -501,7 +502,7 @@ const Board = () => {
                 )}
                 <Animal
                   className={classNames(
-                    'mr-2 h-40 w-28 font-semibold border border-black dark:border-sky-500 cursor-pointer',
+                    'shadow-lg mr-2 h-40 w-28 font-semibold border border-black dark:border-sky-500 cursor-pointer',
                     {}
                   )}
                   imageSize="h-28 w-28"
@@ -525,7 +526,7 @@ const Board = () => {
             <div className="flex space-x-2 mr-2">
               {hand.map((animal, index) => (
                 <Animal
-                  className="h-40 w-28 border font-semibold border-black cursor-pointer dark:border-sky-500"
+                  className="h-40 w-28 shadow-lg border font-semibold border-black cursor-pointer dark:border-sky-500"
                   imageSize="h-28 w-28"
                   key={index}
                   animal={animal}
@@ -541,9 +542,10 @@ const Board = () => {
             </div>
           </div>
           <div>
-            <div className="flex">
+            <div className="flex flex-col">
               <span>Your Name: </span>
               <input
+                type="text"
                 className="border border-gray-200 w-full p-2 rounded-lg m-0 dark:text-black"
                 value={chosenName}
                 onChange={(e) => setChosenName(e.target.value)}
