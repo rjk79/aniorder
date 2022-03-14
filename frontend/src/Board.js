@@ -337,6 +337,12 @@ const Board = () => {
     }
   }
 
+  function formatParam(param) {
+    const original = param.replace(/_/g, ' ').split(' ');
+    const reversed = original.reverse();
+    return reversed.join(' ');
+  }
+
   const modalContent = ['animal', 'board-animal'].includes(modal) ? (
     <Animal
       animal={modalAnimal}
@@ -372,7 +378,7 @@ const Board = () => {
               type="checkbox"
               checked={selectedOrder === param}
             />
-            <div className="capitalize">{param.replace(/_/g, ' ')}</div>
+            <div className="capitalize">{formatParam(param)}</div>
           </div>
         ))}
       </div>
@@ -463,7 +469,7 @@ const Board = () => {
         </div>
         <div className="flex justify-between">
           <span className="capitalize">
-            Ordering By: <strong> {order.replace(/_/g, ' ')}</strong>
+            Ordering By: <strong> {formatParam(order)}</strong>
           </span>
           <span>
             Streak: <strong> {board.length}</strong>

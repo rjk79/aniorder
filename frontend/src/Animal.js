@@ -43,7 +43,10 @@ const Animal = ({
       </div>
       {details && (
         <>
-          <div className={classNames('inline-block text-center line-clamp-4 font-normal text-sm')}>
+          <div
+            className={classNames(
+              'italic inline-block text-center line-clamp-4 font-normal text-sm'
+            )}>
             {animal.latin_name}
           </div>
           {animal.image_link && (
@@ -64,7 +67,7 @@ const Animal = ({
           className="my-4 font-medium rounded-lg bg-sky-500 text-white flex text-base justify-center items-center px-4 py-2 border-0"
           onClick={onSubmit}>
           {animal.name
-            ? 'Place Your Animal to the Right of This One'
+            ? 'Place Your Animal to the Right of This'
             : 'Place your Animal First in Line'}
         </button>
       )}
