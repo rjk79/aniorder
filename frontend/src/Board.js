@@ -5,7 +5,8 @@ import {
   QuestionMarkCircleIcon,
   MoonIcon,
   SunIcon,
-  RefreshIcon
+  RefreshIcon,
+  CheckIcon
 } from '@heroicons/react/solid';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
@@ -13,7 +14,7 @@ import { cloneDeep } from 'lodash';
 import Animal from './Animal';
 import Modal from './Modal';
 import Snackbar from './Snackbar.tsx';
-import { Listbox } from '@headlessui/react';
+import { Listbox, RadioGroup } from '@headlessui/react';
 
 const mockAnimals = [
   {
@@ -247,6 +248,14 @@ const Board = () => {
     }
   }, [selectedAnimalKind]);
 
+  useEffect(() => {
+    if (selectedAnimalKind === 'animal') {
+      setSelectedOrder('lifespan');
+    } else {
+      setSelectedOrder('weight');
+    }
+  }, [selectedAnimalKind]);
+
   function setup() {
     setupBoard();
     setupHand();
@@ -402,23 +411,23 @@ const Board = () => {
     </>
   ) : modal === 'new-game' ? (
     <>
+      <RadioGroup value={selectedOrder} onChange={setSelectedOrder} className="space-y-2">
+        <RadioGroup.Label className="text-2xl">Order By:</RadioGroup.Label>
+        {['lifespan', 'weight_max', 'length_max'].map((param, index) => (
+          <RadioGroup.Option key={index} value={param}>
+            {({ checked, active }) => (
+              <div className={classNames('flex')}>
+                <div className="h-6 w-6 rounded-full bg-pink-500 mr-2 flex justify-center items-center shrink-0">
+                  {checked && <CheckIcon className="h-5 w-5 text-white" />}
+                </div>
+                <span className="capitalize">{formatParam(param)}</span>
+              </div>
+            )}
+          </RadioGroup.Option>
+        ))}
+      </RadioGroup>
+
       <div className="space-y-2 flex flex-col">
-        <div className="text-2xl font-bold">Order By:</div>
-        <div className="space-y-2">
-          {orderOptions.map((param, index) => (
-            <div
-              key={index}
-              className="flex cursor-pointer items-center"
-              onClick={() => setSelectedOrder(param)}>
-              <input
-                className="text-pink-500 mr-2 h-4 w-4"
-                type="checkbox"
-                checked={selectedOrder === param}
-              />
-              <div className="capitalize">{formatParam(param)}</div>
-            </div>
-          ))}
-        </div>
         <div className="block self-end">
           <Listbox value={selectedAnimalKind} onChange={setSelectedAnimalKind}>
             <Listbox.Button className="capitalize opacity-0 border border-gray-700 hover:opacity-100">
