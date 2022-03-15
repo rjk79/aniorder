@@ -13,6 +13,7 @@ import { cloneDeep } from 'lodash';
 import Animal from './Animal';
 import Modal from './Modal';
 import Snackbar from './Snackbar.tsx';
+import { Listbox } from '@headlessui/react';
 
 const mockAnimals = [
   {
@@ -226,6 +227,8 @@ const Board = () => {
   const [strikes, setStrikes] = useState(0);
   const [chosenName, setChosenName] = useState('');
   const [scores, setScores] = useState([]);
+  const [selectedAnimalKind, setSelectedAnimalKind] = useState('animal');
+  const [animalKind, setAnimalKind] = useState('animal');
 
   useEffect(() => {
     getScores();
@@ -249,7 +252,7 @@ const Board = () => {
     } else {
       const res = await fetchAnimals();
       const resJSON = await res.json();
-      setBoard(resJSON);
+      setBoard(selectedAnimalKind === 'animal' ? resJSON : [resJSON]);
     }
   }
 
@@ -259,12 +262,18 @@ const Board = () => {
     } else {
       const res = await fetchAnimals();
       const resJSON = await res.json();
-      setHand(resJSON);
+      setHand(selectedAnimalKind === 'animal' ? resJSON : [resJSON]);
     }
   }
 
   function fetchAnimals() {
-    const request = new Request(`https://zoo-animal-api.herokuapp.com/animals/rand/1`, {
+    const randomIndex = Math.floor(Math.random() * 899);
+    const url =
+      selectedAnimalKind === 'animal'
+        ? 'https://zoo-animal-api.herokuapp.com/animals/rand/1'
+        : `https://pokeapi.co/api/v2/pokemon/${randomIndex}`;
+
+    const request = new Request(url, {
       method: 'GET'
     });
 
@@ -342,6 +351,11 @@ const Board = () => {
     return reversed.join(' ');
   }
 
+  const orderOptions =
+    selectedAnimalKind === 'animal'
+      ? ['lifespan', 'weight_max', 'length_max']
+      : ['weight', 'height'];
+
   const modalContent = ['animal', 'board-animal'].includes(modal) ? (
     <Animal
       animal={modalAnimal}
@@ -350,6 +364,7 @@ const Board = () => {
       imageSize="h-80 w-80"
       {...(modal === 'board-animal' ? { onSubmit } : {})}
       details={true}
+      animalKind={animalKind}
     />
   ) : modal === 'instructions' ? (
     <>
@@ -365,10 +380,10 @@ const Board = () => {
     </>
   ) : modal === 'new-game' ? (
     <>
-      <div className="space-y-2">
+      <div className="space-y-2 flex flex-col">
         <div className="text-2xl font-bold">Order By:</div>
         <div className="space-y-2">
-          {['lifespan', 'weight_max', 'length_max'].map((param, index) => (
+          {orderOptions.map((param, index) => (
             <div
               key={index}
               className="flex cursor-pointer items-center"
@@ -382,10 +397,29 @@ const Board = () => {
             </div>
           ))}
         </div>
+        <div className="block self-end">
+          <Listbox value={selectedAnimalKind} onChange={setSelectedAnimalKind}>
+            <Listbox.Button className="capitalize opacity-0 hover:opacity-100">
+              {selectedAnimalKind}
+            </Listbox.Button>
+            <Listbox.Options className="absolute bg-white">
+              {['animal', 'poke'].map((kind, index) => (
+                <Listbox.Option key={index} value={kind}>
+                  {({ active }) => (
+                    <div className={classNames('capitalize', { 'bg-blue-500': active })}>
+                      {kind}
+                    </div>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Listbox>
+        </div>
         <button
           className="w-40 font-medium rounded-lg bg-pink-500 text-white flex text-base justify-center items-center px-2 py-2 border-0"
           onClick={() => {
             setOrder(selectedOrder);
+            setAnimalKind(selectedAnimalKind);
             setup();
           }}>
           Start New Game
@@ -515,6 +549,7 @@ const Board = () => {
                   }}
                   textClassName="text-sm leading-4"
                   order={order}
+                  animalKind={animalKind}
                 />
               </div>
             ))}
@@ -537,6 +572,7 @@ const Board = () => {
                   textClassName="text-sm leading-4"
                   {...(strikes === 5 ? { revealed: true } : {})}
                   order={order}
+                  animalKind={animalKind}
                 />
               ))}
             </div>

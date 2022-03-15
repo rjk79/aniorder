@@ -10,20 +10,29 @@ const Animal = ({
   textClassName,
   onSubmit,
   details,
-  order
+  order,
+  animalKind
 }) => {
   const unitMap = {
     lifespan: 'years',
     weight_max: 'lbs.',
-    length_max: 'ft.'
+    length_max: 'ft.',
+    weight: 'lbs.',
+    height: 'ft.'
   };
+
+  const image =
+    animalKind === 'animal'
+      ? animal.image_link
+      : animal.sprites?.other?.['official-artwork']?.front_default;
+
   return (
     <div
       className={classNames('relative flex flex-col items-center rounded-lg bg-white', className)}
       onClick={onClick}>
-      {animal.image_link && (
+      {image && (
         <div className={classNames('relative overflow-hidden rounded-t-lg', imageSize, {})}>
-          <img src={animal.image_link} className="h-full w-full object-cover" />
+          <img src={image} className="h-full w-full object-cover" />
           {revealed && (
             <div
               className={classNames(
@@ -36,7 +45,7 @@ const Animal = ({
       )}
       <div
         className={classNames(
-          'inline-block text-center line-clamp-4 dark:text-black',
+          'inline-block text-center line-clamp-4 dark:text-black capitalize',
           textClassName
         )}>
         {animal.name}
@@ -49,9 +58,9 @@ const Animal = ({
             )}>
             {animal.latin_name}
           </div>
-          {animal.image_link && (
+          {image && (
             <a
-              href={animal.image_link}
+              href={image}
               target="_blank"
               className={classNames(
                 'text-xs font-normal underline inline-block text-center line-clamp-4 dark:text-black'
