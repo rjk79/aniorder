@@ -239,6 +239,14 @@ const Board = () => {
     setupHand();
   }, [board]);
 
+  useEffect(() => {
+    if (selectedAnimalKind === 'animal') {
+      setSelectedOrder('lifespan');
+    } else {
+      setSelectedOrder('weight');
+    }
+  }, [selectedAnimalKind]);
+
   function setup() {
     setupBoard();
     setupHand();
