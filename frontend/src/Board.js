@@ -251,8 +251,13 @@ const Board = () => {
       setBoard(mockAnimals);
     } else {
       const res = await fetchAnimals();
-      const resJSON = await res.json();
-      setBoard(selectedAnimalKind === 'animal' ? resJSON : [resJSON]);
+      const animal = await res.json();
+
+      if (selectedAnimalKind !== 'animal') {
+        animal.total_power = getTotalPower(animal);
+      }
+
+      setBoard(selectedAnimalKind === 'animal' ? animal : [animal]);
     }
   }
 
@@ -261,8 +266,13 @@ const Board = () => {
       setHand([mockAnimals[0]]);
     } else {
       const res = await fetchAnimals();
-      const resJSON = await res.json();
-      setHand(selectedAnimalKind === 'animal' ? resJSON : [resJSON]);
+      const animal = await res.json();
+
+      if (selectedAnimalKind !== 'animal') {
+        animal.total_power = getTotalPower(animal);
+      }
+
+      setHand(selectedAnimalKind === 'animal' ? animal : [animal]);
     }
   }
 
@@ -351,10 +361,14 @@ const Board = () => {
     return reversed.join(' ');
   }
 
+  function getTotalPower(animal) {
+    return animal.stats.reduce((acc, curr) => acc + curr.base_stat, 0);
+  }
+
   const orderOptions =
     selectedAnimalKind === 'animal'
       ? ['lifespan', 'weight_max', 'length_max']
-      : ['weight', 'height'];
+      : ['weight', 'height', 'total_power'];
 
   const modalContent = ['animal', 'board-animal'].includes(modal) ? (
     <Animal

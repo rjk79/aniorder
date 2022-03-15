@@ -18,7 +18,8 @@ const Animal = ({
     weight_max: 'lbs.',
     length_max: 'ft.',
     weight: 'lbs.',
-    height: 'ft.'
+    height: 'ft.',
+    total_power: '⚡'
   };
 
   const image =
