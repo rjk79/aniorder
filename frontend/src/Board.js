@@ -473,7 +473,7 @@ const Board = () => {
 
   function getSpriteLine() {
     return (
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         {board.map((animal, index) => (
           <div
             key={index}
@@ -560,7 +560,7 @@ const Board = () => {
                 {!index && (
                   <div
                     className={classNames(
-                      'flex justify-center items-center border border-gray-200 text-center shadow-lg font-semibold p-2 mr-2 text-white bg-sky-500 h-40 w-28 rounded-lg cursor-pointer dark:border-sky-500 transform hover:-translate-y-2 transition',
+                      'flex justify-center items-center border border-gray-200 text-center hover:shadow-lg font-semibold p-2 mr-2 text-white bg-sky-500 h-40 w-28 rounded-lg cursor-pointer dark:border-sky-500 transform hover:scale-110 transition',
                       {}
                     )}
                     onClick={() => {
@@ -573,7 +573,7 @@ const Board = () => {
                 )}
                 <Animal
                   className={classNames(
-                    'shadow-lg mr-2 h-40 w-28 font-semibold border border-gray-200 dark:border-sky-500 cursor-pointer transform hover:-translate-y-2 transition',
+                    'mr-2 h-40 w-28 font-semibold border border-gray-200 dark:border-sky-500 cursor-pointer transform hover:scale-110 hover:z-10 hover:shadow-lg transition',
                     {}
                   )}
                   imageSize="h-28 w-28"
@@ -598,7 +598,7 @@ const Board = () => {
             <div className="flex space-x-2 mr-2">
               {hand.map((animal, index) => (
                 <Animal
-                  className="h-40 w-28 shadow-lg font-semibold border border-gray-200 cursor-pointer dark:border-sky-500 transform hover:-translate-y-2 transition"
+                  className="h-40 w-28 hover:shadow-lg font-semibold border border-gray-200 cursor-pointer dark:border-sky-500 transform hover:scale-110 transition"
                   imageSize="h-28 w-28"
                   key={index}
                   animal={animal}
