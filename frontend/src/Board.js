@@ -399,7 +399,7 @@ const Board = () => {
         </div>
         <div className="block self-end">
           <Listbox value={selectedAnimalKind} onChange={setSelectedAnimalKind}>
-            <Listbox.Button className="capitalize opacity-0 hover:opacity-100">
+            <Listbox.Button className="capitalize opacity-0 border border-gray-700 hover:opacity-100">
               {selectedAnimalKind}
             </Listbox.Button>
             <Listbox.Options className="absolute bg-white">

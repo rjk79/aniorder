@@ -26,6 +26,13 @@ const Animal = ({
       ? animal.image_link
       : animal.sprites?.other?.['official-artwork']?.front_default;
 
+  const revealedValue =
+    order === 'height'
+      ? (animal[order] / 3.048).toFixed(2)
+      : order === 'weight'
+      ? (animal[order] / 4.536).toFixed(2)
+      : animal[order];
+
   return (
     <div
       className={classNames('relative flex flex-col items-center rounded-lg bg-white', className)}
@@ -38,7 +45,7 @@ const Animal = ({
               className={classNames(
                 'w-full text-center text-sm absolute bg-black bg-opacity-50 text-white top-0'
               )}>
-              {animal[order]} {unitMap[order]}
+              {revealedValue} {unitMap[order]}
             </div>
           )}
         </div>
