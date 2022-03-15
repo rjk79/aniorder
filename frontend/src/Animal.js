@@ -60,12 +60,6 @@ const Animal = ({
       </div>
       {details && (
         <>
-          {animal.sprites?.front_default && (
-            <div
-              className={classNames('absolute left-0 overflow-hidden rounded-t-lg h-15 w-15', {})}>
-              <img src={animal.sprites?.front_default} className="h-full w-full object-cover" />
-            </div>
-          )}
           {animal.types && (
             <div
               className={classNames(

@@ -471,6 +471,20 @@ const Board = () => {
     </div>
   ) : null;
 
+  function getSpriteLine() {
+    return (
+      <div className="flex gap-2">
+        {board.map((animal, index) => (
+          <div
+            key={index}
+            className={classNames('animate-bounce overflow-hidden rounded-t-lg h-16 w-16', {})}>
+            <img src={animal.sprites.front_default} className="h-full w-full object-cover" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div
       className={classNames('relative w-full min-h-screen', {
@@ -538,6 +552,7 @@ const Board = () => {
             Strikes: <strong> {strikes}</strong>
           </span>
         </div>
+        {strikes === 5 && animalKind !== 'animal' && getSpriteLine()}
         <div>
           <div className="flex flex-wrap mb-48">
             {board.map((animal, index) => (
