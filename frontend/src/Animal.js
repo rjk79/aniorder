@@ -76,17 +76,6 @@ const Animal = ({
             )}>
             {animal.latin_name}
           </div>
-          {image && (
-            <a
-              href={image}
-              target="_blank"
-              className={classNames(
-                'text-xs font-normal underline inline-block text-center line-clamp-4 dark:text-black outline-0'
-              )}
-              rel="noreferrer">
-              see full image
-            </a>
-          )}
         </>
       )}
       {onSubmit && (
@@ -99,6 +88,17 @@ const Animal = ({
               : 'Place your Animal First in Line'
           }
         />
+      )}
+      {image && (
+        <a
+          href={image}
+          target="_blank"
+          className={classNames(
+            'text-xs font-normal underline inline-block text-center line-clamp-4 dark:text-black outline-0'
+          )}
+          rel="noreferrer">
+          see full image
+        </a>
       )}
     </div>
   );
