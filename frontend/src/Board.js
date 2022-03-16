@@ -244,6 +244,7 @@ const Board = () => {
     getScores();
     setup();
     fetchCollection();
+    fetchName();
   }, []);
 
   useEffect(() => {
@@ -409,6 +410,15 @@ const Board = () => {
     return animal.stats.reduce((acc, curr) => acc + curr.base_stat, 0);
   }
 
+  function fetchName() {
+    const name = localStorage.getItem('lineup_name');
+    if (name) setChosenName(name);
+  }
+
+  function saveName() {
+    if (chosenName) localStorage.setItem('lineup_name', chosenName);
+  }
+
   const orderOptions =
     selectedAnimalKind === 'animal'
       ? ['lifespan', 'weight_max', 'length_max']
@@ -532,7 +542,7 @@ const Board = () => {
       })}>
       <div className="h-full w-full min-h-screen p-2 dark:bg-slate-900 dark:text-white">
         <div className="flex justify-between items-center">
-          <h1 className="header text-2xl font-bold dark:text-sky-400">Aniorder 🦁</h1>
+          <h1 className="text-2xl font-bold dark:text-sky-400">Aniorder 🦁</h1>
           <div className="flex space-x-4 items-center">
             <div
               className={classNames(
@@ -673,7 +683,10 @@ const Board = () => {
                 />
                 <Button
                   className="w-40 font-medium rounded-lg bg-pink-500 text-white flex text-base justify-center items-center px-2 py-2 border-0"
-                  onClick={() => setSubmittedName(true)}
+                  onClick={() => {
+                    saveName();
+                    setSubmittedName(true);
+                  }}
                   label="Submit"
                 />
               </div>
@@ -690,11 +703,10 @@ const Board = () => {
             </div>
           )}
         </div>
-
-        <Modal closeModal={() => setModal(null)} modal={modal}>
-          {modalContent}
-        </Modal>
       </div>
+      <Modal closeModal={() => setModal(null)} modal={modal}>
+        {modalContent}
+      </Modal>
       {feedback && <Snackbar label={feedback} setLabel={setFeedback} />}
     </div>
   );

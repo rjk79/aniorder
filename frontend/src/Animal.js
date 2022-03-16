@@ -89,7 +89,7 @@ const Animal = ({
           }
         />
       )}
-      {image && (
+      {details && image && (
         <a
           href={image}
           target="_blank"
