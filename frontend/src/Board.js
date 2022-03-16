@@ -6,11 +6,13 @@ import {
   MoonIcon,
   SunIcon,
   RefreshIcon,
-  CheckIcon
+  CheckIcon,
+  PencilIcon
 } from '@heroicons/react/solid';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
 
+import Button from './Button.tsx';
 import Animal from './Animal';
 import Modal from './Modal';
 import Snackbar from './Snackbar.tsx';
@@ -230,6 +232,7 @@ const Board = () => {
   const [scores, setScores] = useState([]);
   const [selectedAnimalKind, setSelectedAnimalKind] = useState('animal');
   const [animalKind, setAnimalKind] = useState('animal');
+  const [submittedName, setSubmittedName] = useState(false);
 
   useEffect(() => {
     getScores();
@@ -413,10 +416,13 @@ const Board = () => {
     <>
       <RadioGroup value={selectedOrder} onChange={setSelectedOrder} className="space-y-2">
         <RadioGroup.Label className="text-2xl">Order By:</RadioGroup.Label>
-        {['lifespan', 'weight_max', 'length_max'].map((param, index) => (
+        {orderOptions.map((param, index) => (
           <RadioGroup.Option key={index} value={param}>
             {({ checked, active }) => (
-              <div className={classNames('flex')}>
+              <div
+                className={classNames('flex', {
+                  'ring-0 border-0': active
+                })}>
                 <div className="h-6 w-6 rounded-full bg-pink-500 mr-2 flex justify-center items-center shrink-0">
                   {checked && <CheckIcon className="h-5 w-5 text-white" />}
                 </div>
@@ -446,15 +452,15 @@ const Board = () => {
             </Listbox.Options>
           </Listbox>
         </div>
-        <button
+        <Button
           className="w-40 font-medium rounded-lg bg-pink-500 text-white flex text-base justify-center items-center px-2 py-2 border-0"
           onClick={() => {
             setOrder(selectedOrder);
             setAnimalKind(selectedAnimalKind);
             setup();
-          }}>
-          Start New Game
-        </button>
+          }}
+          label="Start New Game"
+        />
       </div>
     </>
   ) : modal === 'high-scores' ? (
@@ -623,21 +629,35 @@ const Board = () => {
               ))}
             </div>
           </div>
-          <div>
-            <div className="flex flex-col">
-              <span>Your Name: </span>
-              <input
-                type="text"
-                className="border border-gray-200 w-full p-2 rounded-lg m-0 dark:text-black"
-                value={chosenName}
-                onChange={(e) => setChosenName(e.target.value)}
-                placeholder="Enter your name here..."
-              />
+          {!submittedName ? (
+            <div>
+              <div className="flex flex-col space-y-2">
+                <span>Your Name: </span>
+                <input
+                  type="text"
+                  className="border border-gray-200 w-full p-2 rounded-lg m-0 dark:text-black"
+                  value={chosenName}
+                  onChange={(e) => setChosenName(e.target.value)}
+                  placeholder="Enter your name here..."
+                />
+                <Button
+                  className="w-40 font-medium rounded-lg bg-pink-500 text-white flex text-base justify-center items-center px-2 py-2 border-0"
+                  onClick={() => setSubmittedName(true)}
+                  label="Submit"
+                />
+              </div>
+              <div className="text-xs text-gray-400 break-words w-48">
+                As long as your name is present, your high score will update whenever a game
+                finishes
+              </div>
             </div>
-            <div className="text-xs text-gray-400 break-words w-48">
-              As long as your name is present, your high score will update whenever a game finishes
+          ) : (
+            <div className="flex space-x-2">
+              <div>Playing as:</div>
+              <div className="capitalize font-bold">{chosenName.toLowerCase()}</div>
+              <PencilIcon className="h-5 w-5" onClick={() => setSubmittedName(false)} />
             </div>
-          </div>
+          )}
         </div>
 
         <Modal closeModal={() => setModal(null)} modal={modal}>

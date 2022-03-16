@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
+import Button from './Button.tsx';
+
 const Animal = ({
   animal,
   revealed,
@@ -88,13 +90,15 @@ const Animal = ({
         </>
       )}
       {onSubmit && (
-        <button
+        <Button
           className="my-4 font-medium rounded-lg bg-sky-500 text-white flex text-base justify-center items-center px-4 py-2 border-0"
-          onClick={onSubmit}>
-          {animal.name
-            ? 'Place Your Animal to the Right of This'
-            : 'Place your Animal First in Line'}
-        </button>
+          onClick={onSubmit}
+          label={
+            animal.name
+              ? 'Place Your Animal to the Right of This'
+              : 'Place your Animal First in Line'
+          }
+        />
       )}
     </div>
   );
