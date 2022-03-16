@@ -15,7 +15,7 @@ const Snackbar = ({ label, setLabel }) => {
   return (
     <div
       className={classNames(
-        'top-0 pointer-events-none p-5 w-full h-full flex justify-center items-center fixed z-10 bg-black bg-opacity-50',
+        'top-0 pointer-events-none p-5 w-full h-full flex justify-center items-center fixed z-30 bg-black bg-opacity-50',
         {
           'transition bg-opacity-0': !showing
         }

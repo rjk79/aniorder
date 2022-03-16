@@ -7,16 +7,20 @@ import {
   SunIcon,
   RefreshIcon,
   CheckIcon,
-  PencilIcon
+  PencilIcon,
+  ViewListIcon
 } from '@heroicons/react/solid';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
 
+import CollectionModalContent from './CollectionModalContent.js';
 import Button from './Button.tsx';
 import Animal from './Animal';
 import Modal from './Modal';
 import Snackbar from './Snackbar.tsx';
 import { Listbox, RadioGroup } from '@headlessui/react';
+
+const MOCKS = false;
 
 const mockAnimals = [
   {
@@ -215,7 +219,6 @@ const mockAnimals = [
 ];
 
 const GAME_LOST = 'Play again?';
-const MOCKS = false;
 
 const Board = () => {
   const [board, setBoard] = useState([]);
@@ -227,16 +230,19 @@ const Board = () => {
   const [nightMode, setNightMode] = useState(false);
   const [order, setOrder] = useState('lifespan');
   const [selectedOrder, setSelectedOrder] = useState('lifespan');
-  const [strikes, setStrikes] = useState(0);
+  // const [strikes, setStrikes] = useState(0);
+  const [strikes, setStrikes] = useState(4);
   const [chosenName, setChosenName] = useState('');
   const [scores, setScores] = useState([]);
   const [selectedAnimalKind, setSelectedAnimalKind] = useState('animal');
   const [animalKind, setAnimalKind] = useState('animal');
   const [submittedName, setSubmittedName] = useState(false);
+  const [collection, setCollection] = useState([]);
 
   useEffect(() => {
     getScores();
     setup();
+    fetchCollection();
   }, []);
 
   useEffect(() => {
@@ -279,6 +285,24 @@ const Board = () => {
 
       setBoard(selectedAnimalKind === 'animal' ? animal : [animal]);
     }
+  }
+
+  function fetchCollection() {
+    const collection = localStorage.getItem('collection');
+    if (collection) {
+      setCollection(collection.split(','));
+    }
+  }
+
+  function saveCollection() {
+    const collectionStr = collection.join(',');
+    const boardImages = board.map((animal) => animal.sprites.front_default);
+    const filteredImages = boardImages.filter((image) => !collection.includes(image));
+    const boardStr = boardImages.join(',');
+    const newCollection = collectionStr.concat(boardStr);
+
+    setCollection(newCollection.split(','));
+    localStorage.setItem('collection', newCollection);
   }
 
   async function setupHand() {
@@ -341,6 +365,10 @@ const Board = () => {
         setFeedback(GAME_LOST);
         saveScore(board.length);
         setStrikes(newStrikes);
+
+        if (animalKind !== 'animal') {
+          saveCollection();
+        }
       } else {
         setStrikes(newStrikes);
         setFeedback('Try again');
@@ -484,15 +512,21 @@ const Board = () => {
         ))}
       </div>
     </div>
+  ) : modal === 'collection' ? (
+    <>
+      <CollectionModalContent collection={collection} />
+    </>
   ) : null;
 
-  function getSpriteLine() {
+  function getSpriteLine(animals, bounce) {
     return (
       <div className="flex gap-2 flex-wrap">
-        {board.map((animal, index) => (
+        {animals.map((animal, index) => (
           <div
             key={index}
-            className={classNames('animate-bounce overflow-hidden rounded-t-lg h-16 w-16', {})}>
+            className={classNames('overflow-hidden rounded-t-lg h-16 w-16', {
+              'animate-bounce ': bounce
+            })}>
             <img src={animal.sprites.front_default} className="h-full w-full object-cover" />
           </div>
         ))}
@@ -542,6 +576,12 @@ const Board = () => {
               className="h-7 w-7 cursor-pointer"
               onClick={() => setModal('instructions')}
             />
+            {animalKind !== 'animal' && (
+              <ViewListIcon
+                className="h-7 w-7 cursor-pointer"
+                onClick={() => setModal('collection')}
+              />
+            )}
             <div className="relative">
               {strikes === 5 && (
                 <div className="animate-ping bg-sky-500 pointer-events-none rounded-full w-full h-full absolute bg-opacity-50"></div>
@@ -567,7 +607,7 @@ const Board = () => {
             Strikes: <strong> {strikes}</strong>
           </span>
         </div>
-        {strikes === 5 && animalKind !== 'animal' && getSpriteLine()}
+        {strikes === 5 && animalKind !== 'animal' && getSpriteLine(board, true)}
         <div>
           <div className="flex flex-wrap mb-48">
             {board.map((animal, index) => (
@@ -607,7 +647,7 @@ const Board = () => {
             ))}
           </div>
         </div>
-        <div className="fixed w-full left-0 bottom-0 px-2 py-2 flex justify-between items-center bg-white bg-opacity-70 border-t border-gray-300 dark:bg-slate-900 dark:bg-opacity-70">
+        <div className="z-20 fixed w-full left-0 bottom-0 px-2 py-2 flex justify-between items-center bg-white bg-opacity-70 border-t border-gray-300 dark:bg-slate-900 dark:bg-opacity-70">
           <div className="">
             <div className="text-xl font-bold">Your Animal</div>
             <div className="flex space-x-2 mr-2">
