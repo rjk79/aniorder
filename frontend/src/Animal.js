@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-
+import FavButton from './FavButton';
 import Button from './Button.tsx';
 
 const Animal = ({
@@ -76,6 +76,7 @@ const Animal = ({
             )}>
             {animal.latin_name}
           </div>
+          {image && <FavButton img={image} name={animal.name}/>}
         </>
       )}
       {onSubmit && (
