@@ -23,6 +23,8 @@ import FavElement from './FavElement';
 
 const MOCKS = false;
 
+const MOCKS = false;
+
 const mockAnimals = [
   {
     name: 'Western Monkey Spotted Gaboon Viper',
@@ -239,24 +241,20 @@ const Board = () => {
   const [animalKind, setAnimalKind] = useState('animal');
   const [submittedName, setSubmittedName] = useState(false);
   const [collection, setCollection] = useState([]);
+  const [didMount, setDidMount] = useState(false);
 
   useEffect(() => {
+    setDidMount(true);
     getScores();
     setup();
     fetchCollection();
   }, []);
 
   useEffect(() => {
-    setupHand();
-  }, [board]);
-
-  useEffect(() => {
-    if (selectedAnimalKind === 'animal') {
-      setSelectedOrder('lifespan');
-    } else {
-      setSelectedOrder('weight');
+    if (didMount) {
+      setupHand();
     }
-  }, [selectedAnimalKind]);
+  }, [board]);
 
   useEffect(() => {
     if (selectedAnimalKind === 'animal') {
@@ -268,7 +266,6 @@ const Board = () => {
 
   function setup() {
     setupBoard();
-    setupHand();
     setModal(null);
     setStrikes(0);
   }
@@ -299,8 +296,10 @@ const Board = () => {
     const collectionStr = collection.join(',');
     const boardImages = board.map((animal) => animal.sprites.front_default);
     const filteredImages = boardImages.filter((image) => !collection.includes(image));
-    const boardStr = boardImages.join(',');
-    const newCollection = collectionStr.concat(boardStr);
+    const boardStr = filteredImages.join(',');
+
+    const newCollection =
+      collectionStr && boardStr ? `${collectionStr}, ${boardStr}` : collectionStr.concat(boardStr);
 
     setCollection(newCollection.split(','));
     localStorage.setItem('collection', newCollection);

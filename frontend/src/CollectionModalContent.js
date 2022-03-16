@@ -24,13 +24,14 @@ const CollectionModalContent = ({ collection }) => {
   }
   return (
     <div>
-      <div className="font-bold text-2xl w-full p-5 bg-gradient-to-tr from-white to-red-700">
-        <div>Pokedex</div>
-        <div>
-          {ids.length} {'/'} 898
+      <div className="flex justify-between items-center text-2xl w-full p-5 bg-gradient-to-tr from-white to-red-700">
+        <div className=" font-bold">Pokedex</div>
+        <div className="font-normal text-sm">
+          {ids.length}
+          {'/'}898
         </div>
       </div>
-      <div className="flex flex-wrap">{items}</div>
+      <div className="flex flex-wrap h-96 overflow-y-auto">{items}</div>
     </div>
   );
 };
