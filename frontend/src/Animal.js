@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 import Button from './Button.tsx';
@@ -81,7 +81,7 @@ const Animal = ({
               href={image}
               target="_blank"
               className={classNames(
-                'text-xs font-normal underline inline-block text-center line-clamp-4 dark:text-black'
+                'text-xs font-normal underline inline-block text-center line-clamp-4 dark:text-black outline-0'
               )}
               rel="noreferrer">
               see full image

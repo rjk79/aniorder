@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import { QuestionMarkCircleIcon } from '@heroicons/react/solid';
 
 const CollectionModalContent = ({ collection }) => {

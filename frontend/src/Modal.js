@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { XIcon } from '@heroicons/react/solid';
 import { Dialog } from '@headlessui/react';
 

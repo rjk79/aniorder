@@ -441,12 +441,9 @@ const Board = () => {
       <RadioGroup value={selectedOrder} onChange={setSelectedOrder} className="space-y-2">
         <RadioGroup.Label className="text-2xl">Order By:</RadioGroup.Label>
         {orderOptions.map((param, index) => (
-          <RadioGroup.Option key={index} value={param}>
-            {({ checked, active }) => (
-              <div
-                className={classNames('flex', {
-                  'ring-0 border-0': active
-                })}>
+          <RadioGroup.Option key={index} value={param} className="outline-0">
+            {({ checked }) => (
+              <div className={classNames('flex', {})}>
                 <div className="h-6 w-6 rounded-full bg-pink-500 mr-2 flex justify-center items-center shrink-0">
                   {checked && <CheckIcon className="h-5 w-5 text-white" />}
                 </div>
