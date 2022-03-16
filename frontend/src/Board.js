@@ -237,24 +237,20 @@ const Board = () => {
   const [animalKind, setAnimalKind] = useState('animal');
   const [submittedName, setSubmittedName] = useState(false);
   const [collection, setCollection] = useState([]);
+  const [didMount, setDidMount] = useState(false);
 
   useEffect(() => {
+    setDidMount(true);
     getScores();
     setup();
     fetchCollection();
   }, []);
 
   useEffect(() => {
-    setupHand();
-  }, [board]);
-
-  useEffect(() => {
-    if (selectedAnimalKind === 'animal') {
-      setSelectedOrder('lifespan');
-    } else {
-      setSelectedOrder('weight');
+    if (didMount) {
+      setupHand();
     }
-  }, [selectedAnimalKind]);
+  }, [board]);
 
   useEffect(() => {
     if (selectedAnimalKind === 'animal') {
@@ -266,7 +262,6 @@ const Board = () => {
 
   function setup() {
     setupBoard();
-    setupHand();
     setModal(null);
     setStrikes(0);
   }
