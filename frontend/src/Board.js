@@ -19,6 +19,7 @@ import Animal from './Animal';
 import Modal from './Modal';
 import Snackbar from './Snackbar.tsx';
 import { Listbox, RadioGroup } from '@headlessui/react';
+import FavElement from './FavElement';
 
 const MOCKS = false;
 
@@ -669,6 +670,7 @@ const Board = () => {
               ))}
             </div>
           </div>
+          <FavElement />
           {!submittedName ? (
             <div>
               <div className="flex flex-col space-y-2">

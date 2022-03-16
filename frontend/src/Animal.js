@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
+import FavButton from './FavButton';
 
 import Button from './Button.tsx';
 
@@ -87,6 +88,7 @@ const Animal = ({
               see full image
             </a>
           )}
+          {image && <FavButton img={image} name={animal.name}/>}
         </>
       )}
       {onSubmit && (
