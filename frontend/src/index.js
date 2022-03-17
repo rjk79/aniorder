@@ -4,9 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { createOvermind } from 'overmind';
+import { Provider } from 'overmind-react';
+import { config } from './overmind';
+
+const overmind = createOvermind(config, {
+  devtools: 'localhost:3000'
+});
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider value={overmind}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

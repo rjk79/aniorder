@@ -1,7 +1,18 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import FavButton from './FavButton';
 import Button from './Button.tsx';
+import { useAppState } from './overmind';
+
+const unitMap = {
+  lifespan: 'years',
+  weight_max: 'lbs.',
+  length_max: 'ft.',
+  weight: 'lbs.',
+  height: 'ft.',
+  total_power: '⚡'
+};
 
 const Animal = ({
   animal,
@@ -13,17 +24,9 @@ const Animal = ({
   onSubmit,
   details,
   order,
-  animalKind
+  setAvatar
 }) => {
-  const unitMap = {
-    lifespan: 'years',
-    weight_max: 'lbs.',
-    length_max: 'ft.',
-    weight: 'lbs.',
-    height: 'ft.',
-    total_power: '⚡'
-  };
-
+  const { animalKind } = useAppState();
   const image =
     animalKind === 'animal'
       ? animal.image_link
@@ -76,6 +79,7 @@ const Animal = ({
             )}>
             {animal.latin_name}
           </div>
+          {image && <FavButton image={image} name={animal.name} setAvatar={setAvatar} />}
         </>
       )}
       {onSubmit && (

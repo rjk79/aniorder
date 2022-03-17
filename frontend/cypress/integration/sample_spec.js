@@ -4,6 +4,6 @@ describe('My First Test', () => {
   });
 
   it('Allows user to input values', () => {
-    cy.getBySel('test-input').type('fake@email.com').should('have.value', 'fake@email.com');
+    cy.getBySel('app').should('eq', 'Aniorder');
   });
 });

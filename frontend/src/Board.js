@@ -19,6 +19,8 @@ import Animal from './Animal';
 import Modal from './Modal';
 import Snackbar from './Snackbar.tsx';
 import { Listbox, RadioGroup } from '@headlessui/react';
+import FavElement from './FavElement';
+import { useActions, useAppState } from './overmind';
 
 const MOCKS = false;
 
@@ -221,6 +223,9 @@ const mockAnimals = [
 const GAME_LOST = 'Play again?';
 
 const Board = () => {
+  const { setAnimalKind } = useActions();
+  const { animalKind } = useAppState();
+
   const [board, setBoard] = useState([]);
   const [hand, setHand] = useState([]);
   const [position, setPosition] = useState(null);
@@ -234,10 +239,10 @@ const Board = () => {
   const [chosenName, setChosenName] = useState('');
   const [scores, setScores] = useState([]);
   const [selectedAnimalKind, setSelectedAnimalKind] = useState('animal');
-  const [animalKind, setAnimalKind] = useState('animal');
   const [submittedName, setSubmittedName] = useState(false);
   const [collection, setCollection] = useState([]);
   const [didMount, setDidMount] = useState(false);
+  const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
     setDidMount(true);
@@ -432,7 +437,7 @@ const Board = () => {
       imageSize="h-80 w-80"
       {...(modal === 'board-animal' ? { onSubmit } : {})}
       details={true}
-      animalKind={animalKind}
+      setAvatar={setAvatar}
     />
   ) : modal === 'instructions' ? (
     <>
@@ -542,7 +547,9 @@ const Board = () => {
       })}>
       <div className="h-full w-full min-h-screen p-2 dark:bg-slate-900 dark:text-white">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold dark:text-sky-400">Aniorder 🦁</h1>
+          <h1 className="text-2xl font-bold dark:text-sky-400" data-cy="app">
+            Aniorder 🦁
+          </h1>
           <div className="flex space-x-4 items-center">
             <div
               className={classNames(
@@ -569,10 +576,10 @@ const Board = () => {
                 )}
               </div>
             </div>
-            <ChartBarIcon
+            {/* <ChartBarIcon
               className="h-7 w-7 cursor-pointer"
               onClick={() => setModal('high-scores')}
-            />
+            /> */}
             <QuestionMarkCircleIcon
               className="h-7 w-7 cursor-pointer"
               onClick={() => setModal('instructions')}
@@ -642,7 +649,6 @@ const Board = () => {
                   }}
                   textClassName="text-sm leading-4"
                   order={order}
-                  animalKind={animalKind}
                 />
               </div>
             ))}
@@ -665,7 +671,6 @@ const Board = () => {
                   textClassName="text-sm leading-4"
                   {...(strikes === 5 ? { revealed: true } : {})}
                   order={order}
-                  animalKind={animalKind}
                 />
               ))}
             </div>
@@ -696,8 +701,9 @@ const Board = () => {
               </div>
             </div>
           ) : (
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 items-center">
               <div>Playing as:</div>
+              <FavElement avatar={avatar} />
               <div className="capitalize font-bold">{chosenName.toLowerCase()}</div>
               <PencilIcon className="h-5 w-5" onClick={() => setSubmittedName(false)} />
             </div>

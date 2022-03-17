@@ -19,6 +19,8 @@
     "confetti-js": "^0.0.18",
     "cypress": "^8.6.0",
     "lodash": "^4.17.21",
+    "overmind": "^28.0.1",
+    "overmind-react": "^29.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",

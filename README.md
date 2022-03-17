@@ -8,6 +8,7 @@
 - Node
 
 ## Other Technologies:
+- Overmind
 - Cypress
 - Tailwind
 - Typescript
