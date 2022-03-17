@@ -3,14 +3,24 @@ on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-20.04
+    # modifies the Install step
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
+      - name: Install
+      # needs this for react-scripts
+        run: npm install
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: npm start
+          # 'uses' doesnt recognize default directory
+          start: npm start --prefix frontend
           wait-on: 'http://localhost:3000'
           config: baseUrl=https://localhost:3000
+          # needs this to find the config
+          project: ./frontend

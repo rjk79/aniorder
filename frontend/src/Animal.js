@@ -79,7 +79,6 @@ const Animal = ({
             )}>
             {animal.latin_name}
           </div>
-          {image && <FavButton image={image} name={animal.name} setAvatar={setAvatar} />}
         </>
       )}
       {onSubmit && (
@@ -93,17 +92,22 @@ const Animal = ({
           }
         />
       )}
-      {details && image && (
-        <a
-          href={image}
-          target="_blank"
-          className={classNames(
-            'text-xs font-normal underline inline-block text-center line-clamp-4 dark:text-black outline-0'
-          )}
-          rel="noreferrer">
-          see full image
-        </a>
-      )}
+      <div className="flex justify-between items-center">
+        {details && image && (
+          <>
+            <a
+              href={image}
+              target="_blank"
+              className={classNames(
+                'text-xs capitalize font-normal underline inline-block text-center line-clamp-4 dark:text-black outline-0'
+              )}
+              rel="noreferrer">
+              see full image
+            </a>
+            <FavButton image={image} name={animal.name} setAvatar={setAvatar} />
+          </>
+        )}
+      </div>
     </div>
   );
 };

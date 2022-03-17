@@ -8,9 +8,7 @@ import { createOvermind } from 'overmind';
 import { Provider } from 'overmind-react';
 import { config } from './overmind';
 
-const overmind = createOvermind(config, {
-  devtools: 'localhost:3000'
-});
+const overmind = createOvermind(config);
 
 ReactDOM.render(
   <React.StrictMode>
