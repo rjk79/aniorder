@@ -1,4 +1,5 @@
-# Wriddle
+# Aniorder
+Live site: http://aniorder.herokuapp.com/
 
 
 ## Technologies:
@@ -15,7 +16,3 @@
 - Github Actions - checks linting, tests
 - Prettier
 - Eslint
-
-add key of 'proxy' to package.json to make requests to backend
-
-run 'yarn format' then 'yarn lint:fix'
