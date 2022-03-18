@@ -14,7 +14,7 @@ function FavButton(props) {
   }
 
   return (
-    <div onClick={toggleFavorite} className="cursor-pointer">
+    <div onClick={toggleFavorite} className="cursor-pointer items-center">
       <StarIcon
         className={classNames('w-7 h-7 cursor-pointer inline-block m-1.5', {
           'text-blue-500': favClicked,

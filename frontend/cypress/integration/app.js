@@ -4,6 +4,6 @@ describe('My First Test', () => {
   });
 
   it('Allows user to input values', () => {
-    cy.getBySel('app').should('eq', 'Aniorder');
+    cy.getBySel('app').should('contain', 'Aniorder');
   });
 });
